@@ -94,7 +94,7 @@ gpresult /scope user /r
 ## Screenshots
 
 - [Group Policy verification – Block Control Panel](screenshots/gpo-control-panel-policy-applied.png)
-
+- [Automatic drive mapping – IT Shared Drive (I:)](screenshots/mapped-it-shared-drive.png)
 ## Planned Next Steps
 
 - Configure password and account-lockout policies.
