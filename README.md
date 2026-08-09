@@ -93,7 +93,7 @@ gpresult /scope user /r
 
 ## Screenshots
 
-View the [lab screenshots and verification evidence](screenshots/README.md).
+- [Group Policy verification – Block Control Panel](screenshots/gpo-control-panel-policy-applied.png)
 
 ## Planned Next Steps
 
