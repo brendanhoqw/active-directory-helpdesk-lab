@@ -91,6 +91,10 @@ gpresult /scope user /r
 - Group Policy centrally manages settings across domain users and computers.
 - Drive mapping provides users with a convenient connection to a central file share.
 
+## Screenshots
+
+View the [lab screenshots and verification evidence](screenshots/README.md).
+
 ## Planned Next Steps
 
 - Configure password and account-lockout policies.
