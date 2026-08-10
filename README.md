@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project simulates a small-business Active Directory environment using Windows Server 2022, Windows 11 Enterprise, and Oracle VirtualBox.
+This project simulates a small-business Active Directory environment using Windows Server 2022, Windows 11 Enterprise, and Oracle VirtualBox. 
 
 The lab was created to practise entry-level IT support tasks, including:
 
@@ -12,7 +12,7 @@ The lab was created to practise entry-level IT support tasks, including:
 - Group Policy deployment
 - Shared-folder permissions
 - Automatic network-drive mapping
-
+- Account lockout policy configuration and user-account recovery
 **Project status:** Active development
 
 ## Lab Architecture
@@ -69,7 +69,10 @@ brendanlab.local
 - Verified that an authorised IT user could create and modify files.
 - Verified that an unauthorised Operations user received Access Denied.
 - Used Group Policy Preferences to automatically map the IT share as drive `I:`.
-
+- Configured a domain account-lockout policy with a three-attempt threshold.
+- Simulated, diagnosed, and resolved a locked domain-user account.
+- Verified successful domain authentication after unlocking the account.
+  
 ## Validation and Troubleshooting Commands
 
 ```text
