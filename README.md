@@ -2,40 +2,42 @@
 
 ## Project Overview
 
-This project simulates a small-business Active Directory environment using Windows Server 2022, Windows 11 Enterprise, and Oracle VirtualBox. 
+This project simulates a small-business Active Directory environment using Windows Server 2022, Windows 11 Enterprise, and Oracle VirtualBox.
 
 The lab was created to practise entry-level IT support tasks, including:
 
 - Active Directory user administration
 - Domain joining
-- DNS configuration
+- DNS configuration and troubleshooting
 - Group Policy deployment
 - Shared-folder permissions
 - Automatic network-drive mapping
 - Account lockout policy configuration and user-account recovery
 - DHCP server configuration and automatic client addressing
-    
-**Project status:** Active development
+- PowerShell-based user onboarding
+- Event Viewer investigation
+
+**Project status:** Completed
 
 ## Lab Architecture
 
 | System | Role | IP address |
 |---|---|---|
-| DC01 | Domain Controller, DNS server, and file server | `192.168.50.10` |
-| CLIENT01 | Windows 11 domain client | `192.168.50.20` |
+| DC01 | Domain Controller, DNS server, DHCP server, and file server | 192.168.50.10 |
+| CLIENT01 | Windows 11 domain client | DHCP lease: 192.168.50.100 |
+
+**VirtualBox Internal Network:** `ADLab`
 
 ```text
-VirtualBox Internal Network: ADLab
-
 DC01
 Windows Server 2022
-Active Directory + DNS + File Sharing
+Active Directory + DNS + DHCP + File Sharing
 192.168.50.10
         |
         |
 CLIENT01
 Windows 11 Enterprise
-192.168.50.20
+DHCP: 192.168.50.100
 DNS: 192.168.50.10
 ```
 
@@ -53,16 +55,16 @@ brendanlab.local
 ## Work Completed
 
 - Installed Windows Server 2022.
-- Promoted `DC01` to a Domain Controller.
+- Promoted DC01 to a Domain Controller.
 - Created the `brendanlab.local` domain.
 - Configured Active Directory-integrated DNS.
 - Created OUs for IT, Finance, Operations, and Workstations.
 - Created and managed domain-user accounts.
 - Practised password resets and account disabling and enabling.
 - Created the `IT Support Staff` security group.
-- Installed Windows 11 Enterprise as `CLIENT01`.
-- Configured static IP addressing and DNS.
-- Joined `CLIENT01` to the domain.
+- Installed Windows 11 Enterprise as CLIENT01.
+- Configured IP addressing and DNS.
+- Joined CLIENT01 to the domain.
 - Verified domain login using `whoami`.
 - Created a Group Policy that blocks Control Panel for IT users.
 - Verified Group Policy using `gpupdate` and `gpresult`.
@@ -74,30 +76,59 @@ brendanlab.local
 - Configured a domain account-lockout policy with a three-attempt threshold.
 - Simulated, diagnosed, and resolved a locked domain-user account.
 - Verified successful domain authentication after unlocking the account.
-- Installed and authorized the DHCP Server role on DC01.
+- Used Event Viewer Event ID 4740 to identify CLIENT01 as the lockout source.
+- Installed and authorised the DHCP Server role on DC01.
 - Created an active `192.168.50.0/24` scope with DNS options for `brendanlab.local`.
 - Changed CLIENT01 to automatic addressing and verified its `192.168.50.100` lease.
-  
+- Diagnosed and repaired an APIPA address caused by incorrect network configuration.
+- Simulated incorrect DNS by assigning `8.8.8.8` to CLIENT01.
+- Confirmed that direct IP connectivity could work while private-domain name resolution failed.
+- Restored the DHCP-provided DNS server `192.168.50.10` and verified domain resolution.
+- Used PowerShell to create and configure the Michael Ong domain account.
+- Added Michael to the IT OU and `IT Support Staff` security group.
+- Verified Michael's domain login, mapped drive, and shared-folder access on CLIENT01.
+
 ## Validation and Troubleshooting Commands
 
 ```text
 ping
 ipconfig /all
+ipconfig /release
+ipconfig /renew
 nslookup
 whoami
 hostname
 gpupdate /force
 gpresult /scope user /r
+nltest /dsgetdc:brendanlab.local
+nltest /sc_verify:brendanlab.local
+```
+
+PowerShell commands used included:
+
+```powershell
+Get-DnsClientServerAddress
+Get-ADUser
+New-ADUser
+Add-ADGroupMember
+Get-ADPrincipalGroupMembership
+Get-Service DHCPServer
+Get-DhcpServerv4Scope
+Get-DhcpServerv4Binding
 ```
 
 ## Key Learning
 
 - Organizational Units organise users and computers and provide targets for Group Policy.
 - Security groups grant users access to resources.
-- Active Directory depends on DNS to locate domain services.
+- Active Directory depends on internal DNS to locate the Domain Controller and domain services.
 - Share and NTFS permissions work together to control network-folder access.
 - Group Policy centrally manages settings across domain users and computers.
-- Drive mapping provides users with a convenient connection to a central file share.
+- Drive mapping connects users to a central file share, while permissions determine whether they can open it.
+- DHCP automatically provides clients with IP addresses, DNS servers, and other network settings.
+- A `169.254.x.x` APIPA address indicates that the client could not obtain a DHCP lease.
+- Event Viewer can identify the account and source computer involved in an account lockout.
+- PowerShell enables repeatable administration, but commands should be checked and verified before use.
 
 ## Screenshots
 
@@ -107,15 +138,8 @@ gpresult /scope user /r
 - [Account unlock verification](screenshots/account-unlocked-verification.png)
 - [DHCP client configuration](screenshots/dhcp-client-configuration.png)
 - [DHCP address lease](screenshots/dhcp-address-lease.png)
-  
-## Planned Next Steps
-
-- Configure password and account-lockout policies.
-- Simulate and resolve a locked user account.
-- Troubleshoot incorrect DNS settings.
-- Troubleshoot failed domain logins and Group Policy application.
-- Add PowerShell automation for user creation.
-- Add screenshots and detailed troubleshooting documentation.
+- [PowerShell user onboarding verification](screenshots/powershell-user-onboarding-verification.png)
+- [Event Viewer – John Tan account lockout](screenshots/event-4740-john-tan-lockout.png)
 
 ## Disclaimer
 
