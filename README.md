@@ -4,7 +4,7 @@
 
 This project simulates a small-business Active Directory environment using Windows Server 2022, Windows 11 Enterprise, and Oracle VirtualBox.
 
-The lab was created to practise entry-level IT support tasks, including:
+The lab was created to practice entry-level IT support tasks, including:
 
 - Active Directory user administration
 - Domain joining
