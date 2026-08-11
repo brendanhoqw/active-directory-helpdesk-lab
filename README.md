@@ -13,6 +13,8 @@ The lab was created to practise entry-level IT support tasks, including:
 - Shared-folder permissions
 - Automatic network-drive mapping
 - Account lockout policy configuration and user-account recovery
+- DHCP server configuration and automatic client addressing
+    
 **Project status:** Active development
 
 ## Lab Architecture
@@ -72,6 +74,9 @@ brendanlab.local
 - Configured a domain account-lockout policy with a three-attempt threshold.
 - Simulated, diagnosed, and resolved a locked domain-user account.
 - Verified successful domain authentication after unlocking the account.
+- Installed and authorized the DHCP Server role on DC01.
+- Created an active `192.168.50.0/24` scope with DNS options for `brendanlab.local`.
+- Changed CLIENT01 to automatic addressing and verified its `192.168.50.100` lease.
   
 ## Validation and Troubleshooting Commands
 
@@ -100,11 +105,13 @@ gpresult /scope user /r
 - [Automatic drive mapping – IT Shared Drive (I:)](screenshots/mapped-it-shared-drive.png)
 - [Account lockout policy configuration](screenshots/account-lockout-policy.png)
 - [Account unlock verification](screenshots/account-unlocked-verification.png)
+- [DHCP client configuration](screenshots/dhcp-client-configuration.png)
+- [DHCP address lease](screenshots/dhcp-address-lease.png)
+  
 ## Planned Next Steps
 
 - Configure password and account-lockout policies.
 - Simulate and resolve a locked user account.
-- Configure DHCP.
 - Troubleshoot incorrect DNS settings.
 - Troubleshoot failed domain logins and Group Policy application.
 - Add PowerShell automation for user creation.
